@@ -1,9 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
 
-/* ============================
-   CLASS: Room
-   ============================ */
 class Room {
     private String type;
     private int beds;
@@ -33,10 +30,6 @@ class Room {
         return price;
     }
 }
-
-/* ============================
-   CLASS: RoomInventory
-   ============================ */
 class RoomInventory {
     private Map<String, Integer> availability;
 
@@ -53,10 +46,6 @@ class RoomInventory {
         return availability;
     }
 }
-
-/* ============================
-   CLASS: RoomSearchService
-   ============================ */
 class RoomSearchService {
 
     public void searchAvailableRooms(
@@ -96,9 +85,6 @@ class RoomSearchService {
     }
 }
 
-/* ============================
-   MAIN CLASS
-   ============================ */
 public class BookMyStayApp {
 
     public static void main(String[] args) {
