@@ -87,7 +87,7 @@ class RoomSearchService {
 }
 
 // Main Class (Entry Point)
-public class BookMyStayApp {
+public class UseCase4RoomSearch {
 
     public static void main(String[] args) {
 
