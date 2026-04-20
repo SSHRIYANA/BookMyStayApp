@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
+// Domain Model
 class Room {
     private String type;
     private int beds;
@@ -30,6 +31,8 @@ class Room {
         return price;
     }
 }
+
+// Inventory (State Holder)
 class RoomInventory {
     private Map<String, Integer> availability;
 
@@ -41,11 +44,13 @@ class RoomInventory {
         availability.put(type, count);
     }
 
-    // Read-only access
+    // Read-only access (defensive copy)
     public Map<String, Integer> getRoomAvailability() {
-        return availability;
+        return new HashMap<>(availability);
     }
 }
+
+// Search Service (Read-only logic)
 class RoomSearchService {
 
     public void searchAvailableRooms(
@@ -56,54 +61,49 @@ class RoomSearchService {
 
         Map<String, Integer> availability = inventory.getRoomAvailability();
 
-        System.out.println("Room Search\n");
+        System.out.println("=== Room Search Results ===\n");
 
-        // Single Room
         if (availability.get("Single") != null && availability.get("Single") > 0) {
             printRoom(singleRoom, availability.get("Single"));
         }
 
-        // Double Room
         if (availability.get("Double") != null && availability.get("Double") > 0) {
             printRoom(doubleRoom, availability.get("Double"));
         }
 
-        // Suite Room
         if (availability.get("Suite") != null && availability.get("Suite") > 0) {
             printRoom(suiteRoom, availability.get("Suite"));
         }
     }
 
-    // Helper method (clean separation)
     private void printRoom(Room room, int available) {
         System.out.println(room.getType() + " Room:");
         System.out.println("Beds: " + room.getBeds());
         System.out.println("Size: " + room.getSize() + " sqft");
-        System.out.println("Price per night: " + room.getPrice());
+        System.out.println("Price per night: ₹" + room.getPrice());
         System.out.println("Available: " + available);
         System.out.println();
     }
 }
 
+// Main Class (Entry Point)
 public class BookMyStayApp {
 
     public static void main(String[] args) {
 
-        // Create Room objects
+        // Room objects (Domain layer)
         Room singleRoom = new Room("Single", 1, 250, 1500.0);
         Room doubleRoom = new Room("Double", 2, 400, 2500.0);
         Room suiteRoom = new Room("Suite", 3, 750, 5000.0);
 
-        // Setup Inventory
+        // Inventory setup
         RoomInventory inventory = new RoomInventory();
         inventory.setAvailability("Single", 5);
         inventory.setAvailability("Double", 3);
         inventory.setAvailability("Suite", 2);
 
-        // Search Service
+        // Search (Read-only operation)
         RoomSearchService searchService = new RoomSearchService();
-
-        // Perform Search (READ-ONLY)
         searchService.searchAvailableRooms(
                 inventory,
                 singleRoom,
